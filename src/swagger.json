@@ -1,0 +1,115 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "TestII - ChapterII",
+    "description": "It is a API documentation",
+    "version": "1.0.0",
+    "contact": { 
+      "email": "warley.henrique93@gmail.com" 
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["users"],
+        "summary": "Create a user",
+        "description": "Create a new user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": { 
+                  "name": { 
+                    "type": "string" 
+                  }, 
+                  "email": { 
+                    "type": "string" 
+                  }
+                },
+                "example": { 
+                  "name": "example name", 
+                  "email": "example@mail.com.br" 
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": { "description": "User already exists" },
+          "201": { "description": "Created" }
+        }
+      },
+      "get": {
+        "tags": ["users"],
+        "summary": "List all users",
+        "description": "List all users. administrator user required",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "user_id",
+            "description": "User ID",
+            "required": true
+          }
+        ],
+        "responses": {
+          "404": { "description": "User not found | this user is not a admin"},
+          "200": { "description": "Ok"}
+        }
+      }
+    },
+    "/users/{user_id}/admin": {
+      "patch": {
+        "tags": ["users"],
+        "summary": "Turn a user in admin",
+        "description": "turn a user in admin",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "description": "User ID",
+            "required": true
+          }
+        ],
+        "responses": {
+          "400": { "description": "User not found" },
+          "200": { "description": "ok" }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Search usuário",
+        "description": "Return a user by Id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "description": "User ID",
+            "required": true
+          }
+        ],
+        "responses": {
+          "400": { "description": "User not found" },
+          "200": { "description": "ok" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "user": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "admin": { "type": "boolean" },
+          "name": { "type": "string" },
+          "email": { "type": "string" },
+          "createdAt": { "type": "date" },
+          "updatedAt": { "type": "date" }
+        }
+      }
+    }
+  }
+}
